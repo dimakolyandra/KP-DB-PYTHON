@@ -1,4 +1,4 @@
-from datatime import datatime
+from datetime import datetime
 
 from db_connection.connection import Base
 from sqlalchemy import Column, Integer, String, Numeric, Date, ForeignKey
@@ -12,7 +12,7 @@ class TradersOrder(Base):
     __tablename__ = 'TRADERS_ORDER'
 
     traders_order_id = Column(Integer, primary_key=True)
-    date_begin = Column(Date, default=datatime.now())
+    date_begin = Column(Date, default=datetime.now())
     value = Column(Numeric)
     status = Column(String(100), default='OPEN')
     date_end = Column(Date)
