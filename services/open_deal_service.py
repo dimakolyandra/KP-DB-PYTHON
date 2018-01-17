@@ -15,12 +15,8 @@ from settings.url import url
 class OpenDealService(BaseService):
 
     def __init__(self):
-        # super(OpenDealService, self).__init__()
-        # print("AAAAAAAA")
-        # print(self.session)
         self.brokers_systems_list = self.session.query(BrokerFirm).all()
         self.trading_contracts_list = self.session.query(TradingContract).all()
-        # self.brokers_systems_connections = connection_dict
 
         currency_list = self.session.query(Currency).all()
         self.currency_dict = dict()
@@ -47,18 +43,18 @@ class OpenDealService(BaseService):
         keys = [i for i in range(0, len(user.contracts))]
         values = [contract for contract in user.contracts]
         users_contract = dict(zip(keys, values))
-
         while True:
             try:
                 print("Выберите брокера из списка тех," +
                       "с кем вы заключили договор:")
                 for k in sorted(users_contract.keys()):
-                    print("Чтобы вас обслуживал {} {} введите - {}".format(
+                    print("Чтобы вас обслуживал {} {} ({}) введите - {}".format(
                         users_contract[k].broker_user.first_name,
                         users_contract[k].broker_user.second_name,
+                        users_contract[k].broker_user.broker_firm.firm_name,
                         k))
-                    user_choice = input("Ввод: ")
-                    return users_contract[int(user_choice)]
+                user_choice = input("Ввод: ")
+                return users_contract[int(user_choice)]
             except KeyError:
                 print("Неверный ввод, попробуйте ещё раз!")
 
@@ -72,8 +68,8 @@ class OpenDealService(BaseService):
                           .format(users_accounts_dict[k].account_number,
                                   users_accounts_dict[k].curr_iso,
                                   k))
-                    chosen_account = input("Ввод: ")
-                    return users_accounts_dict[int(chosen_account)]
+                chosen_account = input("Ввод: ")
+                return users_accounts_dict[int(chosen_account)]
             except KeyError:
                 print("Неверный ввод, попробуйте ещё раз!")
 
